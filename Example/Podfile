@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'AudioSectionVisualizer_Example' do
+  pod 'AudioSectionVisualizer', :path => '../'
+
+  target 'AudioSectionVisualizer_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

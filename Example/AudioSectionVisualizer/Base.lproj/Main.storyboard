@@ -23,16 +23,25 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UVQ-HK-TbZ" customClass="AudioSectionView" customModule="AudioSectionVisualizer">
-                                <rect key="frame" x="0.0" y="372" width="375" height="406"/>
+                                <rect key="frame" x="0.0" y="406" width="375" height="406"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TF2-Nw-YB9">
+                                <rect key="frame" x="159" y="342" width="57" height="30"/>
+                                <state key="normal" title="Animate"/>
+                                <connections>
+                                    <action selector="animateView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="WOh-jj-Xrr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="UVQ-HK-TbZ" secondAttribute="bottom" id="Geh-Wj-wey"/>
+                            <constraint firstItem="TF2-Nw-YB9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="3KE-jd-6jX"/>
+                            <constraint firstItem="UVQ-HK-TbZ" firstAttribute="top" secondItem="TF2-Nw-YB9" secondAttribute="bottom" constant="34" id="Rbm-oW-SRe"/>
                             <constraint firstItem="UVQ-HK-TbZ" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" multiplier="0.5" id="czZ-ec-cmG"/>
                             <constraint firstAttribute="trailing" secondItem="UVQ-HK-TbZ" secondAttribute="trailing" id="dt9-Uo-8fa"/>
                             <constraint firstItem="UVQ-HK-TbZ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="sGN-IY-wv9"/>
+                            <constraint firstAttribute="bottom" secondItem="UVQ-HK-TbZ" secondAttribute="bottom" id="uzp-3H-xWy"/>
                         </constraints>
                     </view>
                     <connections>

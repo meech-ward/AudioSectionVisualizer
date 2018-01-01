@@ -31,9 +31,11 @@ class ViewController: UIViewController {
       points.append(Double(arc4random_uniform(100))/100.0)
     }
     self.audioSectionView.draw(points: points, usedPointsIndexStart: 10, usedPointsIndexEnd: 15)
-//    self.audioSectionView.draw(fromPercentage: 50, toPercentage: 75, duration: 0.5)
-//    self.audioSectionView.animate()
   }
 
+  @IBAction func animateView(_ sender: Any) {
+        self.audioSectionView.draw(fromPercentage: 50, toPercentage: 75, duration: 1.5)
+        self.audioSectionView.animate()
+  }
 }
 

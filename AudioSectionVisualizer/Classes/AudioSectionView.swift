@@ -25,10 +25,6 @@ public class AudioSectionView: UIView {
     }
   }
   
-  func clear() {
-    shapeLayer?.removeFromSuperlayer()
-  }
-  
   /**
    - parameter : allPoints should have a value between 0 and 1.
   */
@@ -95,7 +91,7 @@ extension AudioSectionView {
     let path = UIBezierPath()
     
     for point in points {
-      let x = Double(pointNumber) * lineSpacing
+      let x = Double(pointNumber) * lineSpacing + (lineSpacing/2.0)
       pointNumber += 1
       
       let height = viewHeight*point

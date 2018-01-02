@@ -22,7 +22,7 @@ pod 'AudioSectionVisualizer'
 
 ## Author
 
-05394b3722153a5cad3c776b90c433e6c1f36095, sam@meech-ward.com
+sam@meech-ward.com
 
 ## License
 

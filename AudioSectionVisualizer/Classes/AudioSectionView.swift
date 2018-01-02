@@ -44,9 +44,19 @@ public class AudioSectionView: UIView {
     
     shapeLayer = layerFromPaths(frame: self.bounds, lineSpacing: maximumLineSpacing, paths: paths)
     
+    setupPlayingIndicatorLayer(usedPointsIndexStart: usedPointsIndexStart, usedPointsIndexEnd: usedPointsIndexEnd, lineSpaceing: maximumLineSpacing)
+  }
+  
+  private func setupPlayingIndicatorLayer(usedPointsIndexStart: Int, usedPointsIndexEnd: Int, lineSpaceing: Double) {
     playingIndicatorLayer = FrameAnimationShapeLayer()
     playingIndicatorLayer?.backgroundColor = percentColor.cgColor
     playingIndicatorLayer?.hide()
+    
+    let startX = pointX(pointIndex: usedPointsIndexStart, lineSpacing: lineSpaceing)
+    let endX = pointX(pointIndex: usedPointsIndexEnd, lineSpacing: lineSpaceing) + Double(lineWidth(lineSpacing: lineSpaceing))
+    let height = Double(self.frame.size.height);
+    playingIndicatorLayer?.startFrame = CGRect(x: startX, y: 0, width: 5.0, height: height)
+    playingIndicatorLayer?.endFrame = CGRect(x: endX, y: 0, width: 5.0, height: height)
   }
   
   public func drawPlayingIndicatorLayer(fromPercentage: Double, toPercentage: Double) {

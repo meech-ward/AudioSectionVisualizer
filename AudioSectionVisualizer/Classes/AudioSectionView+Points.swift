@@ -20,7 +20,7 @@ extension AudioSectionView {
         unusedStart.append(point)
         continue
       }
-      if index >= usedPointsIndexEnd {
+      if index > usedPointsIndexEnd {
         unusedEnd.append(point)
         continue
       }
@@ -47,7 +47,7 @@ extension AudioSectionView {
     let path = UIBezierPath()
     
     for point in points {
-      let x = Double(pointNumber) * lineSpacing + (lineSpacing/2.0)
+      let x = pointX(pointIndex: pointNumber, lineSpacing: lineSpacing)
       let height = viewHeight*point
       
       path.move(to: CGPoint(x: x, y: viewHeight/2.0+height/2.0))
@@ -57,6 +57,10 @@ extension AudioSectionView {
     }
     
     return path
+  }
+  
+  func pointX(pointIndex: Int, lineSpacing: Double) -> Double {
+    return Double(pointIndex) * lineSpacing + (lineSpacing/2.0)
   }
   
   func pathsFromPoints(allPoints: [Double], lineSpacing: Double, unusedStartPoints: [Double], usedPoints: [Double], unusedEndPoints: [Double]) -> (unusedStart: UIBezierPath, used: UIBezierPath, unusedEnd:UIBezierPath) {
@@ -81,7 +85,7 @@ extension AudioSectionView {
     let layers = (unusedStart: layersArray[0], used: layersArray[1], unusedEnd: layersArray[2])
     for layer in layersArray {
       layer.frame = frame
-      layer.lineWidth = CGFloat(lineSpacing/1.5)
+      layer.lineWidth = lineWidth(lineSpacing: lineSpacing)
       layer.lineCap = kCALineCapRound
       superlayer.addSublayer(layer)
     }
@@ -96,5 +100,13 @@ extension AudioSectionView {
     layers.unusedEnd.strokeColor = unusedColor.cgColor
     
     return superlayer
+  }
+  
+  /**
+   Given the amount of space each line has, return the line width.
+   The remaining space will be the whitespace around the line
+  */
+  func lineWidth(lineSpacing: Double) -> CGFloat {
+    return CGFloat(lineSpacing/1.5)
   }
 }

@@ -27,15 +27,14 @@ class ViewController: UIViewController {
     super.viewDidAppear(animated)
     var points: [Double] = []
     
-    for _ in 0..<20 {
+    for _ in 0..<40 {
       points.append(Double(arc4random_uniform(100))/100.0)
     }
-    self.audioSectionView.draw(points: points, usedPointsIndexStart: 10, usedPointsIndexEnd: 15)
+    self.audioSectionView.draw(points: points, usedPointsIndexStart: 19, usedPointsIndexEnd: 29)
   }
 
   @IBAction func animateView(_ sender: Any) {
-        self.audioSectionView.draw(fromPercentage: 50, toPercentage: 75, duration: 1.5)
-        self.audioSectionView.animate()
+      self.audioSectionView.animatePlayingIndicatorLayer(duration: 1.5)
   }
 }
 

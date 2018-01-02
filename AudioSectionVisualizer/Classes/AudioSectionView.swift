@@ -7,11 +7,18 @@ public class AudioSectionView: UIView {
   var usedColor: UIColor = UIColor.magenta
   var percentColor: UIColor = UIColor.cyan
   
-  private var startFrame = CGRect.zero
-  private var endFrame = CGRect.zero
-  private var animationDuration: TimeInterval = 0
-  
-  private var percentLayer = CAShapeLayer()
+  /// The line that animates accross the view to indicate playback
+  private var playingIndicatorLayer: FrameAnimationShapeLayer? {
+    willSet(newLayer) {
+      playingIndicatorLayer?.removeFromSuperlayer()
+    }
+    didSet {
+      guard let playingIndicatorLayer = playingIndicatorLayer else {
+        return
+      }
+      self.layer.addSublayer(playingIndicatorLayer)
+    }
+  }
   
   private var shapeLayer: CAShapeLayer? {
     willSet(newShapeLayer) {
@@ -37,55 +44,29 @@ public class AudioSectionView: UIView {
     
     shapeLayer = layerFromPaths(frame: self.bounds, lineSpacing: maximumLineSpacing, paths: paths)
     
-    percentLayer.backgroundColor = percentColor.cgColor
-    self.layer.addSublayer(percentLayer)
+    playingIndicatorLayer = FrameAnimationShapeLayer()
+    playingIndicatorLayer?.backgroundColor = percentColor.cgColor
+    playingIndicatorLayer?.hide()
   }
   
-  public func draw(fromPercentage: Double, toPercentage: Double, duration: TimeInterval) {
+  public func drawPlayingIndicatorLayer(fromPercentage: Double, toPercentage: Double) {
     let barWidth = 5.0
     let screenWidth = Double(self.frame.width)
     let screenHeight = Double(self.frame.height)
     
-    startFrame = CGRect(x: screenWidth*fromPercentage/100.0-barWidth/2.0,
+    playingIndicatorLayer?.startFrame = CGRect(x: screenWidth*fromPercentage/100.0-barWidth/2.0,
                         y: 0, width: barWidth, height: screenHeight)
-    endFrame = CGRect(x: screenWidth*toPercentage/100.0-barWidth/2.0,
+    playingIndicatorLayer?.endFrame = CGRect(x: screenWidth*toPercentage/100.0-barWidth/2.0,
                       y: 0, width: barWidth, height: screenHeight)
-    animationDuration = duration
-    
-    unanimate {
-      self.percentLayer.removeAllAnimations()
-      self.percentLayer.frame = self.startFrame
-    }
+    playingIndicatorLayer?.hide()
   }
   
-  public func animate() {
-    unanimate {
-      self.percentLayer.removeAllAnimations()
-      self.percentLayer.frame = self.startFrame
+  public func animatePlayingIndicatorLayer(duration: TimeInterval) {
+    guard let playingIndicatorLayer = playingIndicatorLayer else {
+      return
     }
-    CATransaction.flush()
-    CATransaction.begin()
-    CATransaction.setAnimationDuration(animationDuration)
-    CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
-    CATransaction.setCompletionBlock {
-      self.unanimate {
-        self.percentLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-      }
-    }
-    
-    self.percentLayer.frame = endFrame
-    CATransaction.commit()
+    playingIndicatorLayer.animationDuration = duration
+    playingIndicatorLayer.animate()
   }
   
-}
-
-
-
-extension AudioSectionView {
-  private func unanimate(_ closure: () -> (Void)) {
-    CATransaction.begin()
-    CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-    closure();
-    CATransaction.commit()
-  }
 }
